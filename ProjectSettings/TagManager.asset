@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Ground&Obstacles
+  - Pickups
+  - PlayerSword
+  - Enemy
+  - EnemyWeaponTrigger
+  - Touch Controls
+  - FxTemporaire
+  - Ledge Grab
+  - Moving Platform
+  - Player Main Collider
+  - Coin
+  - FireBall
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - PostProcessing
+  - Platform
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Parallax Background
+    uniqueID: 128232893
+    locked: 0
+  - name: Default
+    uniqueID: 0
+    locked: 0
