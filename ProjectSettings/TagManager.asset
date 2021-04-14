@@ -16,6 +16,8 @@ TagManager:
   - Player Main Collider
   - Coin
   - FireBall
+  - HP
+  - Shoes
   layers:
   - Default
   - TransparentFX

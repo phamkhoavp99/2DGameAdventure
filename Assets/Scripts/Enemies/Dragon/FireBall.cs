@@ -15,7 +15,6 @@ public class FireBall : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
     }
-
     void Start()
     {
         ShootThePlayer();

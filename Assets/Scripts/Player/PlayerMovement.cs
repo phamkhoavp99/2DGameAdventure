@@ -24,6 +24,7 @@ public class PlayerMovement : MonoBehaviour {
 	int MAX_HEALTH = 100;
 	float currentHealth;
     BoxCollider2D boxCollider;
+ 
 
     // Use this for initialization
     void Awake () {
@@ -148,14 +149,54 @@ public class PlayerMovement : MonoBehaviour {
 		}
 	}
 
-	void ResetIfDead () {
-		if (this.transform.position.y < -7) {
-			SceneManager.LoadScene("Level 1");
-
+    void ResetIfDead()
+    {
+        if (this.transform.position.y < -7)
+        {
+			PlayerPrefs.SetInt("MaxCoins", gameManagerScript.maxCoin += gameManagerScript.coin);
+			PlayerPrefs.DeleteKey("Coins");
+			gameManagerScript.coin = 0;
+			gameManagerScript.DeadMenu.SetActive(true);
+			Time.timeScale = 1;
+		}
+    }
+	public void buyLivesRemainx1()
+	{
+		if (gameManagerScript.maxCoin >= 70)
+		{
+			gameManagerScript.livesRemain += 1;
+			gameManagerScript.maxCoin -= 70;
+			Time.timeScale = 1;
+			gameManagerScript.DeadMenu.SetActive(false);
+			gameManagerScript.goNote.SetActive(false);
+		}
+		else
+		{
+			gameManagerScript.goNote.SetActive(true);
+			gameManagerScript.Note.text = "You don't have enough money";
 		}
 	}
 
-	void PlayerRaycast() {
+	public void buyLivesRemainx2()
+	{
+		if (gameManagerScript.maxCoin >= 150)
+		{
+			gameManagerScript.livesRemain += 2;
+			gameManagerScript.maxCoin -= 150;
+			Time.timeScale = 1;
+			gameManagerScript.DeadMenu.SetActive(false);
+			gameManagerScript.goNote.SetActive(false);
+		}
+		else
+		{
+			gameManagerScript.goNote.SetActive(true);
+			gameManagerScript.Note.text = "You don't have enough money";
+		}
+	}
+
+
+	void PlayerRaycast()
+	{
 		RaycastHit2D downRayLeft = Physics2D.Raycast (this.transform.position + new Vector3(-0.35f, 0), Vector2.down, downRaySize);
 		RaycastHit2D downRayRight = Physics2D.Raycast (this.transform.position + new Vector3(0.35f, 0), Vector2.down, downRaySize);
 		RaycastHit2D downRay = Physics2D.Raycast (this.transform.position, Vector2.down, downRaySize);
@@ -195,16 +236,36 @@ public class PlayerMovement : MonoBehaviour {
 			DamagePlayer ();
 		}
 
-        //
 
         if (other.CompareTag("Coin"))
         {
 			gameManagerScript.coin += 1;
             Destroy(other.gameObject);
         }
-    }
 
-    public void SetOnGrabStay ()
+        if (other.CompareTag("HP"))
+        {
+			currentHealth += 30f;
+			float healthRatio = currentHealth / MAX_HEALTH;
+			m_input.isHurt = true;
+
+			gameManagerScript.SetPlayerHealth(healthRatio);
+			Destroy(other.gameObject);
+        }
+		if (other.CompareTag("Shoes"))
+		{
+			Destroy(other.gameObject);
+			playerSpeed = 20;
+			StartCoroutine(timecount(5));
+		}
+	}
+	IEnumerator timecount(int time)
+	{
+		yield return new WaitForSeconds(time);
+		playerSpeed = 10;
+	}
+
+	public void SetOnGrabStay ()
     {
         if (!m_input.isOnGround && m_input.jumpGrabCornerPressed)
         {

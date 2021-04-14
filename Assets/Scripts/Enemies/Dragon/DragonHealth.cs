@@ -15,7 +15,6 @@ public class DragonHealth : MonoBehaviour
     public void TakeDamage(int damage)
     {
         anim.SetTrigger("Hit");
-        //FindObjectOfType<CameraShake>().ShakeItLow();
         health -= damage;
         if (health < 0)
         {

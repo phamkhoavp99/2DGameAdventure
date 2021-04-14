@@ -10,9 +10,12 @@ public class GameManager : MonoBehaviour {
 	public Text HealthCount;
 	public Image HealthUI;
     public GameObject OptionsMenu;
+	public GameObject DeadMenu;
+	public GameObject goNote;
+	public Text Note;
 
 	private int MAX_HEALTHCOUNT = 3;
-	private int livesRemain;
+	public int livesRemain;
 
 	//
 
@@ -28,10 +31,10 @@ public class GameManager : MonoBehaviour {
 			pickup.AddComponent<Pickup> ();
 		}
 		livesRemain = MAX_HEALTHCOUNT;
-		SetHealthUI ();
+		//SetHealthUI ();
 
 		maxCoin = PlayerPrefs.GetInt("MaxCoins", 0);
-		txtMaxCoin.text = " " + maxCoin.ToString();
+	
 
 		if(PlayerPrefs.HasKey("Coins"))
         {
@@ -46,6 +49,8 @@ public class GameManager : MonoBehaviour {
     private void Update()
     {
 		txtCoin.text = " " + coin;
+		txtMaxCoin.text = " " + maxCoin.ToString();
+		SetHealthUI();
 	}
 
     public void SetPlayerHealth (float healthRatio) {
@@ -56,22 +61,53 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
-	void PlayerDied () {
+	void PlayerDied()
+	{
 		livesRemain -= 1;
-		SetHealthUI ();
-		if (livesRemain <= 0) {
-			SceneManager.LoadScene("Level 1");
+		if (livesRemain <= 0)
+		{
 			PlayerPrefs.SetInt("MaxCoins", maxCoin += coin);
 			PlayerPrefs.DeleteKey("Coins");
 			coin = 0;
+			DeadMenu.SetActive(true);
+			Time.timeScale = 0;
 		}
-		else
-        {
-			PlayerPrefs.SetInt("MaxCoins", maxCoin += coin);
-			PlayerPrefs.DeleteKey("Coins");
-			coin = 0;
-		}			
 	}
+
+	public void buyLivesRemainx1()
+    {
+        if (maxCoin >= 70)
+        {
+			livesRemain += 1;
+			maxCoin -= 70;
+			Time.timeScale = 1;
+			DeadMenu.SetActive(false);
+			goNote.SetActive(false);
+		}
+        else
+        {
+			goNote.SetActive(true);
+			Note.text = "You don't have enough money";
+        }
+	}
+
+	public void buyLivesRemainx2()
+	{
+        if (maxCoin >= 150)
+		{
+			livesRemain += 2;
+			maxCoin -= 150;
+			Time.timeScale = 1;
+			DeadMenu.SetActive(false);
+			goNote.SetActive(false);
+		}
+        else
+        {
+			goNote.SetActive(true);
+			Note.text = "You don't have enough money";
+        }
+	}
+
 
 	void SetHealthUI () {
 		HealthCount.text = "X " + livesRemain.ToString ();
