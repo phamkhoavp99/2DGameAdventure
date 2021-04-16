@@ -160,39 +160,6 @@ public class PlayerMovement : MonoBehaviour {
 			Time.timeScale = 1;
 		}
     }
-	public void buyLivesRemainx1()
-	{
-		if (gameManagerScript.maxCoin >= 70)
-		{
-			gameManagerScript.livesRemain += 1;
-			gameManagerScript.maxCoin -= 70;
-			Time.timeScale = 1;
-			gameManagerScript.DeadMenu.SetActive(false);
-			gameManagerScript.goNote.SetActive(false);
-		}
-		else
-		{
-			gameManagerScript.goNote.SetActive(true);
-			gameManagerScript.Note.text = "You don't have enough money";
-		}
-	}
-
-	public void buyLivesRemainx2()
-	{
-		if (gameManagerScript.maxCoin >= 150)
-		{
-			gameManagerScript.livesRemain += 2;
-			gameManagerScript.maxCoin -= 150;
-			Time.timeScale = 1;
-			gameManagerScript.DeadMenu.SetActive(false);
-			gameManagerScript.goNote.SetActive(false);
-		}
-		else
-		{
-			gameManagerScript.goNote.SetActive(true);
-			gameManagerScript.Note.text = "You don't have enough money";
-		}
-	}
 
 
 	void PlayerRaycast()
