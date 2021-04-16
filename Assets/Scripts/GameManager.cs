@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour {
 	public GameObject DeadMenu;
 	public GameObject goNote;
 	public Text Note;
+	public GameObject GameOverMenu;
 
 	private int MAX_HEALTHCOUNT = 3;
 	public int livesRemain;
@@ -23,6 +24,7 @@ public class GameManager : MonoBehaviour {
 	public int maxCoin = 0;
 	public Text txtCoin;
 	public Text txtMaxCoin;
+	public int numcoin = 1;
 
 	// Use this for initialization
 	void Awake () {

@@ -18,6 +18,10 @@ TagManager:
   - FireBall
   - HP
   - Shoes
+  - Magnet
+  - X2 Gold
+  - Springs
+  - LivesRemain
   layers:
   - Default
   - TransparentFX

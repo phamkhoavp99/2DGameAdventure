@@ -6,11 +6,13 @@ using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour {
 	public int playerSpeed = 10;
-	public int jumpForce = 1250;
+	public int jumpForce = 16;
 	public float downRaySize = 0.8f;
 	public Transform swordTransform;
     public GameObject ledgeTrigger;
 	public GameObject maincollider;
+	public static bool isMagnet;
+
 
 	Rigidbody2D m_playerRb;
 	SpriteRenderer m_playerSpriteRenderer;
@@ -24,7 +26,11 @@ public class PlayerMovement : MonoBehaviour {
 	int MAX_HEALTH = 100;
 	float currentHealth;
     BoxCollider2D boxCollider;
- 
+
+    void Start()
+    {
+		isMagnet = false;
+	}
 
     // Use this for initialization
     void Awake () {
@@ -43,7 +49,6 @@ public class PlayerMovement : MonoBehaviour {
 		m_moveX = m_input.m_horizontal;
 		CheckIfAirborne ();
 		CheckIfFalling ();
-		ResetIfDead ();
 		prevPosition = transform.position;
 	}
 
@@ -155,13 +160,11 @@ public class PlayerMovement : MonoBehaviour {
         {
 			PlayerPrefs.SetInt("MaxCoins", gameManagerScript.maxCoin += gameManagerScript.coin);
 			PlayerPrefs.DeleteKey("Coins");
-			gameManagerScript.coin = 0;
-			gameManagerScript.DeadMenu.SetActive(true);
-			Time.timeScale = 1;
+			//Time.timeScale = 0;
+			gameManagerScript.GameOverMenu.SetActive(true);
+			
 		}
     }
-
-
 	void PlayerRaycast()
 	{
 		RaycastHit2D downRayLeft = Physics2D.Raycast (this.transform.position + new Vector3(-0.35f, 0), Vector2.down, downRaySize);
@@ -202,15 +205,24 @@ public class PlayerMovement : MonoBehaviour {
 		if (other.gameObject.tag == "EnemyWeaponTrigger" || other.gameObject.tag == "FireBall") {
 			DamagePlayer ();
 		}
-
-
-        if (other.CompareTag("Coin"))
+        if (other.CompareTag("Springs"))
         {
-			gameManagerScript.coin += 1;
-            Destroy(other.gameObject);
-        }
-
-        if (other.CompareTag("HP"))
+			jumpForce = 22;
+			Destroy(other.gameObject);
+			StartCoroutine(timecount(5));
+		}
+		if (other.CompareTag("Coin"))
+		{
+			gameManagerScript.coin += gameManagerScript.numcoin;
+			Destroy(other.gameObject);
+		}
+		if(other.CompareTag("X2 Gold"))
+        {
+			gameManagerScript.numcoin = 2;
+			Destroy(other.gameObject);
+			StartCoroutine(timecount(5));
+		}
+		if (other.CompareTag("HP"))
         {
 			currentHealth += 30f;
 			float healthRatio = currentHealth / MAX_HEALTH;
@@ -219,10 +231,21 @@ public class PlayerMovement : MonoBehaviour {
 			gameManagerScript.SetPlayerHealth(healthRatio);
 			Destroy(other.gameObject);
         }
+        if (other.CompareTag("LivesRemain"))
+        {
+			gameManagerScript.livesRemain += 1;
+			Destroy(other.gameObject);
+        }
 		if (other.CompareTag("Shoes"))
 		{
 			Destroy(other.gameObject);
 			playerSpeed = 20;
+			StartCoroutine(timecount(5));
+		}
+        if (other.CompareTag("Magnet"))
+        {
+			isMagnet = true;
+			Destroy(other.gameObject);
 			StartCoroutine(timecount(5));
 		}
 	}
@@ -230,6 +253,9 @@ public class PlayerMovement : MonoBehaviour {
 	{
 		yield return new WaitForSeconds(time);
 		playerSpeed = 10;
+		isMagnet = false;
+		gameManagerScript.numcoin = 1;
+		jumpForce = 16;
 	}
 
 	public void SetOnGrabStay ()
