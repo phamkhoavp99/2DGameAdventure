@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour {
     public int m_damage;
     public int DamageByPlayer;
     public int MAX_HEALTH;
+    public SoundManager sound;
 
     [HideInInspector]
     public bool isCollidingWithObstacle;
@@ -24,6 +25,7 @@ public class Enemy : MonoBehaviour {
     float currentSpeed;
     Vector2 m_direction;
     float groundRaySize;
+    GameManager gameManagerScript;
 
     Rigidbody2D m_enemyRb;
     CapsuleCollider2D m_collider;
@@ -33,6 +35,7 @@ public class Enemy : MonoBehaviour {
         currentSpeed = m_speed;
         m_health = MAX_HEALTH;
         m_direction = new Vector2(transform.right.x, transform.right.y);
+        sound = GameObject.FindGameObjectWithTag("Sound").GetComponent<SoundManager>();
     }
 
     void Awake () {
@@ -41,6 +44,7 @@ public class Enemy : MonoBehaviour {
         m_collider = GetComponent <CapsuleCollider2D> ();
         m_animator.SetBool (EnemyAnimation.TransitionCoditions.Walk, true);
         groundRaySize = m_collider.bounds.size.y * 0.75f;
+        gameManagerScript = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
     }
 
     public void Move () {
@@ -119,7 +123,7 @@ public class Enemy : MonoBehaviour {
     }
 
     void DisableHurt () {
-         m_animator.SetBool(EnemyAnimation.TransitionCoditions.Hurt, false);
+        m_animator.SetBool(EnemyAnimation.TransitionCoditions.Hurt, false);
     }
 
     public void SetIdle () {
@@ -136,7 +140,10 @@ public class Enemy : MonoBehaviour {
     }
 
     void DisableOnDead () {
+        gameManagerScript.coin += 10;
+        sound.Playsound("enemydie");
         gameObject.SetActive (false);
+        
     }
 
     void OnTriggerEnter2D (Collider2D other) {

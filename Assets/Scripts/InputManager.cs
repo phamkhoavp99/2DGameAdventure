@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public static class InputManager
+public static class InputManager 
 {
-
-	public static float Forward () {
+    public static float Forward () {
 		float kb = Input.GetAxis ("Horizontal");
 
 		kb += JoyInputController.m_forward;
@@ -39,7 +38,6 @@ public static class InputManager
 	public static bool AttackSecondary() {
 		bool kb = Input.GetButtonDown ("AttackSecondary") || JoyInputController.m_attackSecondary;
 		//private joy
-
 		return kb;
 	}
 

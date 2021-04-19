@@ -22,6 +22,7 @@ TagManager:
   - X2 Gold
   - Springs
   - LivesRemain
+  - Sound
   layers:
   - Default
   - TransparentFX

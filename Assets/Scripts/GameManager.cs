@@ -25,9 +25,14 @@ public class GameManager : MonoBehaviour {
 	public Text txtCoin;
 	public Text txtMaxCoin;
 	public int numcoin = 1;
+	public SoundManager sound;
 
-	// Use this for initialization
-	void Awake () {
+    void Start()
+    {
+		sound = GameObject.FindGameObjectWithTag("Sound").GetComponent<SoundManager>();
+	}
+    // Use this for initialization
+    void Awake () {
 		GameObject[] pickups = GameObject.FindGameObjectsWithTag("Pickups");
 		foreach(GameObject pickup in pickups) {
 			pickup.AddComponent<Pickup> ();
@@ -65,9 +70,11 @@ public class GameManager : MonoBehaviour {
 
 	void PlayerDied()
 	{
+		
 		livesRemain -= 1;
 		if (livesRemain <= 0)
 		{
+			sound.Playsound("gameover");
 			PlayerPrefs.SetInt("MaxCoins", maxCoin += coin);
 			PlayerPrefs.DeleteKey("Coins");
 			coin = 0;

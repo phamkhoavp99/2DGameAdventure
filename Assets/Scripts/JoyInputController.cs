@@ -19,8 +19,9 @@ public class JoyInputController : MonoBehaviour, IDragHandler, IPointerDownHandl
 	public static bool m_attackPrimary;
 	public static bool m_attackSecondary;
 	public static bool JUMP_FLAG;
+	
 
-	void Awake () {
+    void Awake () {
         if (Application.platform != RuntimePlatform.Android &&
             Application.platform != RuntimePlatform.IPhonePlayer)
         {
@@ -123,11 +124,13 @@ public class JoyInputController : MonoBehaviour, IDragHandler, IPointerDownHandl
     }
 
 	public void SetAttackPrimary (bool status) {
+		
 		m_attackPrimary = status;
 		//m_attackPrimary = false;
 	}
 
 	public void SetAttackSecondary (bool status) {
+		
 		m_attackSecondary = status;
 		m_attackSecondary = false;
 	}

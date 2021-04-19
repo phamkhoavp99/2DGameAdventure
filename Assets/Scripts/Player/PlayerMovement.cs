@@ -12,7 +12,7 @@ public class PlayerMovement : MonoBehaviour {
     public GameObject ledgeTrigger;
 	public GameObject maincollider;
 	public static bool isMagnet;
-
+	public SoundManager sound;
 
 	Rigidbody2D m_playerRb;
 	SpriteRenderer m_playerSpriteRenderer;
@@ -30,6 +30,7 @@ public class PlayerMovement : MonoBehaviour {
     void Start()
     {
 		isMagnet = false;
+		sound = GameObject.FindGameObjectWithTag("Sound").GetComponent<SoundManager>();
 	}
 
     // Use this for initialization
@@ -92,6 +93,7 @@ public class PlayerMovement : MonoBehaviour {
 			    }
 
 			    bool attack1Active = m_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack State.Attack1");
+
 			    bool attack2Active = m_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack State.Attack2");
 
 			    if (!(attack1Active || attack2Active)) {
@@ -190,6 +192,7 @@ public class PlayerMovement : MonoBehaviour {
 	}
 
 	void DamagePlayer () {
+		sound.Playsound("humanhit");
 		currentHealth -= 15f;
 		float healthRatio = currentHealth / MAX_HEALTH;
         m_input.isHurt = true;
@@ -203,27 +206,32 @@ public class PlayerMovement : MonoBehaviour {
 
 	private void OnTriggerEnter2D (Collider2D other) {
 		if (other.gameObject.tag == "EnemyWeaponTrigger" || other.gameObject.tag == "FireBall") {
+			sound.Playsound("humanhit");
 			DamagePlayer ();
 		}
         if (other.CompareTag("Springs"))
         {
+			sound.Playsound("items");
 			jumpForce = 22;
 			Destroy(other.gameObject);
 			StartCoroutine(timecount(5));
 		}
 		if (other.CompareTag("Coin"))
 		{
+			sound.Playsound("coins");
 			gameManagerScript.coin += gameManagerScript.numcoin;
 			Destroy(other.gameObject);
 		}
 		if(other.CompareTag("X2 Gold"))
         {
+			sound.Playsound("items");
 			gameManagerScript.numcoin = 2;
 			Destroy(other.gameObject);
 			StartCoroutine(timecount(5));
 		}
 		if (other.CompareTag("HP"))
         {
+			sound.Playsound("items");
 			currentHealth += 30f;
 			float healthRatio = currentHealth / MAX_HEALTH;
 			m_input.isHurt = true;
@@ -233,17 +241,20 @@ public class PlayerMovement : MonoBehaviour {
         }
         if (other.CompareTag("LivesRemain"))
         {
+			sound.Playsound("items");
 			gameManagerScript.livesRemain += 1;
 			Destroy(other.gameObject);
         }
 		if (other.CompareTag("Shoes"))
 		{
+			sound.Playsound("items");
 			Destroy(other.gameObject);
 			playerSpeed = 20;
 			StartCoroutine(timecount(5));
 		}
         if (other.CompareTag("Magnet"))
         {
+			sound.Playsound("items");
 			isMagnet = true;
 			Destroy(other.gameObject);
 			StartCoroutine(timecount(5));

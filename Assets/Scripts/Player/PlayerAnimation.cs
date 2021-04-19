@@ -6,6 +6,7 @@ public class PlayerAnimation : MonoBehaviour {
 
 	Animator m_animator;
 	InputController m_input;
+	
 
 	static class TransitionCoditions {
 		public static string moving 	 	= "moving";
@@ -23,9 +24,14 @@ public class PlayerAnimation : MonoBehaviour {
 
 	bool prevJumpState;
 	int currentAttackT;
+	public SoundManager sound;
+    void Start()
+    {
+		sound = GameObject.FindGameObjectWithTag("Sound").GetComponent<SoundManager>();
+	}
 
-	// Use this for initialization
-	void Awake () {
+    // Use this for initialization
+    void Awake () {
 		m_animator = GetComponent <Animator> ();
 		m_input = GetComponent <InputController>();
 
@@ -78,12 +84,16 @@ public class PlayerAnimation : MonoBehaviour {
         }
     }
 
-	void SetAttack () {
+		
+		
+	void SetAttack ()
+	{
 
 		bool AtkSec = m_animator.GetCurrentAnimatorStateInfo(0).IsName ("Attack State.Attack3");
 
 		if (m_input.isOnGround) {
 			if (m_input.m_attack1 && !isAttackPrimaryPlaying()) {
+				sound.Playsound("sword");
 				currentAttackT = currentAttackT == 0? 1: 0;
 				// FIX: VJoy Attack disable to make it tappable attack on touch screen
 				JoyInputController.m_attackPrimary = false;
@@ -93,6 +103,7 @@ public class PlayerAnimation : MonoBehaviour {
 			}
 
 			if (m_input.m_attack2) {
+				sound.Playsound("sword");
 				currentAttackT = 2;
 				InitiateAttack (m_input.m_attack2);
 			}

@@ -14,9 +14,15 @@ public class InputController : MonoBehaviour {
     [HideInInspector] public bool grabCorner;
     [HideInInspector] public bool jumpGrabCornerPressed;
     public GameObject gameManager;
+	public SoundManager sound;
 
-	// Status of player
-	[HideInInspector] public bool isOnGround;
+    void Start()
+    {
+        sound = GameObject.FindGameObjectWithTag("Sound").GetComponent<SoundManager>();
+    }
+
+    // Status of player
+    [HideInInspector] public bool isOnGround;
 	[HideInInspector] public bool isFalling;
 	[HideInInspector] public bool isInFlight;
     [HideInInspector] public bool isHurt;
@@ -27,7 +33,8 @@ public class InputController : MonoBehaviour {
 		m_jumpPressed = InputManager.Jump();
 		m_crouchPressed  = InputManager.Crouch();
 		m_attack1 = InputManager.AttackPrimary();
-		m_attack2 = InputManager.AttackSecondary();
+        m_attack2 = InputManager.AttackSecondary();
+       
         jumpGrabCornerPressed = InputManager.JumpPressForGrab();
 
 		if (Input.GetKeyDown(KeyCode.Escape))
