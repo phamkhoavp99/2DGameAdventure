@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour {
 	public static bool isMagnet;
 	public SoundManager sound;
 
+
 	Rigidbody2D m_playerRb;
 	SpriteRenderer m_playerSpriteRenderer;
 	Animator m_animator;
@@ -50,6 +51,7 @@ public class PlayerMovement : MonoBehaviour {
 		m_moveX = m_input.m_horizontal;
 		CheckIfAirborne ();
 		CheckIfFalling ();
+		ResetIfDead();
 		prevPosition = transform.position;
 	}
 
@@ -160,11 +162,12 @@ public class PlayerMovement : MonoBehaviour {
     {
         if (this.transform.position.y < -7)
         {
+
 			PlayerPrefs.SetInt("MaxCoins", gameManagerScript.maxCoin += gameManagerScript.coin);
 			PlayerPrefs.DeleteKey("Coins");
-			//Time.timeScale = 0;
+			gameManagerScript.coin = 0;
 			gameManagerScript.GameOverMenu.SetActive(true);
-			
+
 		}
     }
 	void PlayerRaycast()
@@ -205,6 +208,13 @@ public class PlayerMovement : MonoBehaviour {
 	}
 
 	private void OnTriggerEnter2D (Collider2D other) {
+        if (other.CompareTag("Next"))
+        {
+			PlayerPrefs.SetInt("MaxCoins", gameManagerScript.maxCoin += gameManagerScript.coin);
+			PlayerPrefs.DeleteKey("Coins");
+			gameManagerScript.coin = 0;
+			gameManagerScript.VictoryMenu.SetActive(true);
+        }
 		if (other.gameObject.tag == "EnemyWeaponTrigger" || other.gameObject.tag == "FireBall") {
 			sound.Playsound("humanhit");
 			DamagePlayer ();
@@ -259,6 +269,12 @@ public class PlayerMovement : MonoBehaviour {
 			Destroy(other.gameObject);
 			StartCoroutine(timecount(5));
 		}
+		if (other.CompareTag("Protect"))
+        {
+			Destroy(other.gameObject);
+			StartCoroutine(timecount(5));
+
+		}
 	}
 	IEnumerator timecount(int time)
 	{
@@ -267,6 +283,7 @@ public class PlayerMovement : MonoBehaviour {
 		isMagnet = false;
 		gameManagerScript.numcoin = 1;
 		jumpForce = 16;
+		
 	}
 
 	public void SetOnGrabStay ()

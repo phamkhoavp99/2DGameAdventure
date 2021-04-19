@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour {
 	public Image HealthUI;
     public GameObject OptionsMenu;
 	public GameObject DeadMenu;
+	public GameObject VictoryMenu;
 	public GameObject goNote;
 	public Text Note;
 	public GameObject GameOverMenu;
@@ -87,6 +88,7 @@ public class GameManager : MonoBehaviour {
     {
         if (maxCoin >= 70)
         {
+			sound.Playsound("buy");
 			livesRemain += 1;
 			maxCoin -= 70;
 			Time.timeScale = 1;
@@ -104,6 +106,7 @@ public class GameManager : MonoBehaviour {
 	{
         if (maxCoin >= 150)
 		{
+			sound.Playsound("buy");
 			livesRemain += 2;
 			maxCoin -= 150;
 			Time.timeScale = 1;
@@ -139,7 +142,16 @@ public class GameManager : MonoBehaviour {
 		SetTimeScale();
 		SceneManager.LoadScene("Level 1");
 	}
-
+	public void Restartlevel2()
+    {
+		SetTimeScale();
+		SceneManager.LoadScene("Level 2");
+	}
+	public void LoadScenceLevel2()
+    {
+		SetTimeScale();
+		SceneManager.LoadScene("Level 2");
+    }
 	public void LoadMainMenu ()
     {
         SetTimeScale();

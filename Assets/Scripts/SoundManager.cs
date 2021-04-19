@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-    public AudioClip coins, items, sword, enemydie, humanhit, gameover;
+    public AudioClip coins, items, sword, enemydie, humanhit, gameover, buy;
     public AudioSource adisrc;
     void Start()
     {
@@ -14,6 +14,7 @@ public class SoundManager : MonoBehaviour
         enemydie = Resources.Load<AudioClip>("EnemyDie");
         humanhit = Resources.Load<AudioClip>("HumanHit");
         gameover = Resources.Load<AudioClip>("GameOver");
+        buy = Resources.Load<AudioClip>("Buy");
 
         adisrc = GetComponent<AudioSource>();
     }
@@ -45,6 +46,10 @@ public class SoundManager : MonoBehaviour
             case "gameover":
                 adisrc.clip = gameover;
                 adisrc.PlayOneShot(gameover, 0.6f);
+                break;
+            case "buy":
+                adisrc.clip = buy;
+                adisrc.PlayOneShot(buy, 1f);
                 break;
 
         }
