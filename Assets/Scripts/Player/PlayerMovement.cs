@@ -269,12 +269,6 @@ public class PlayerMovement : MonoBehaviour {
 			Destroy(other.gameObject);
 			StartCoroutine(timecount(5));
 		}
-		if (other.CompareTag("Protect"))
-        {
-			Destroy(other.gameObject);
-			StartCoroutine(timecount(5));
-
-		}
 	}
 	IEnumerator timecount(int time)
 	{
