@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour {
 	public GameObject goNote;
 	public Text Note;
 	public GameObject GameOverMenu;
+	
 
 	private int MAX_HEALTHCOUNT = 3;
 	public int livesRemain;
@@ -142,6 +143,7 @@ public class GameManager : MonoBehaviour {
 		SetTimeScale();
 		SceneManager.LoadScene("Level 1");
 	}
+	
 	public void Restartlevel2()
     {
 		SetTimeScale();

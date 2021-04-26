@@ -6,8 +6,14 @@ public class SoundManager : MonoBehaviour
 {
     public AudioClip coins, items, sword, enemydie, humanhit, gameover, buy;
     public AudioSource adisrc;
+   
+
+   
+
+   
     void Start()
     {
+        
         coins = Resources.Load<AudioClip>("GiveCoin");
         items = Resources.Load<AudioClip>("GiveItem");
         sword = Resources.Load<AudioClip>("Sword");
@@ -17,7 +23,9 @@ public class SoundManager : MonoBehaviour
         buy = Resources.Load<AudioClip>("Buy");
 
         adisrc = GetComponent<AudioSource>();
+       
     }
+
 
    public void Playsound(string clip)
     {
