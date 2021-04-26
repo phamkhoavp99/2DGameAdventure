@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
-using TMPro.EditorUtilities;
-using UnityEditor.Build.Content;
 using UnityEngine;
 
 public class MagnetTrigger : MonoBehaviour
